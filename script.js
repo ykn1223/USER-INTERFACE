@@ -2,41 +2,34 @@ document.getElementById("themeToggle").addEventListener("click", function() {
     document.body.classList.toggle("dark-mode");
 });
 
-// Live Search
-document.getElementById("searchBox").addEventListener("input", function() {
-    let query = this.value.toLowerCase();
-    let results = ["JavaScript", "Python", "C++", "HTML", "CSS"].filter(item => item.toLowerCase().includes(query));
-    document.getElementById("searchResults").innerText = results.join(", ");
-});
+// Floating animation for hero section
+document.querySelector(".hero").style.animation = "fadeIn 1s ease-in-out";
 
-// Poll System
-let pollResults = {};
-function vote(language) {
-    pollResults[language] = (pollResults[language] || 0) + 1;
-    document.getElementById("pollResults").innerText = JSON.stringify(pollResults);
-}
-
-// Comment Section
-function submitComment() {
-    let comment = document.getElementById("commentBox").value;
-    if (comment) {
-        let commentsSection = document.getElementById("commentsSection");
-        commentsSection.innerHTML += `<p>${comment}</p>`;
-        document.getElementById("commentBox").value = "";
+// To-Do List Functionality
+function addTask() {
+    let taskInput = document.getElementById("taskInput").value;
+    if (taskInput) {
+        let taskList = document.getElementById("taskList");
+        let taskItem = document.createElement("li");
+        taskItem.innerText = taskInput;
+        taskItem.classList.add("floating-task");
+        taskItem.onclick = function () { this.remove(); };
+        taskList.appendChild(taskItem);
+        document.getElementById("taskInput").value = "";
     }
 }
 
-// User Authentication (Local Storage)
-function login() {
-    let user = document.getElementById("username").value;
-    let pass = document.getElementById("password").value;
-
-    if (!localStorage.getItem(user)) {
-        localStorage.setItem(user, pass);
-        document.getElementById("loginStatus").innerText = "Account created successfully!";
-    } else if (localStorage.getItem(user) === pass) {
-        document.getElementById("loginStatus").innerText = "Login successful!";
-    } else {
-        document.getElementById("loginStatus").innerText = "Incorrect password!";
+// Floating effect on tasks
+document.styleSheets[0].insertRule(`
+    .floating-task {
+        animation: floatEffect 2s infinite alternate;
     }
-}
+`, document.styleSheets[0].cssRules.length);
+
+document.styleSheets[0].insertRule(`
+    @keyframes floatEffect {
+        from { transform: translateY(0px); }
+        to { transform: translateY(5px); }
+    }
+`, document.styleSheets[0].cssRules.length);
+
